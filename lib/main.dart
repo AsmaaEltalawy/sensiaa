@@ -3,6 +3,7 @@ import 'package:sensia/pages/OnboardingScreen.dart';
 import 'package:sensia/pages/authentication/Login.dart';
 import 'package:sensia/pages/authentication/signup.dart';
 import 'package:sensia/pages/home.dart';
+import 'package:sensia/pages/mindful.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: HomeScreen(),
+      home: OnboardingScreen(),
     );
   }
 }

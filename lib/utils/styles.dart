@@ -22,7 +22,8 @@ const Color kBlueAccentColor = Colors.blueAccent;
 const Color kButtonTextColor = Colors.white;
 
 // Additional colors used across auth pages
-const Color kBackgroundColor = Colors.white;
+// Updated: make the app background match Home's soft cream (0xFFF8F3)
+const Color kBackgroundColor = Color(0xFFFFF8F3);
 const Color kCardBackgroundColor = Colors.white;
 const Color kCheckboxActiveColor = Colors.purple;
 const Color kTransparentColor = Colors.transparent;

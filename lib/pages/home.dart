@@ -1,37 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:sensia/utils/styles.dart';
 
+import '../components/app_bottom_nav.dart';
+import '../components/app_logo.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffFFF8F3),
+      backgroundColor: kBackgroundColor,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orangeAccent,
         onPressed: () {},
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Journal"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset),
-            label: "Games",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.self_improvement),
-            label: "Mindful",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-      ),
+      bottomNavigationBar: const AppBottomNavigationBar(currentIndex: 0),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -72,10 +57,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        CircleAvatar(
-          backgroundColor: Colors.orangeAccent,
-          child: Icon(Icons.refresh, color: Colors.white),
-        ),
+        const AppLogo(padding: 8, iconSize: 28),
       ],
     );
   }
@@ -289,7 +271,9 @@ class _WeekChartPainter extends CustomPainter {
     final double paddingBottom = 28; // space for weekday labels
     final double chartHeight = size.height - paddingTop - paddingBottom;
     final double chartWidth = size.width;
-    final int maxVal = (values.isNotEmpty) ? values.reduce((a, b) => a > b ? a : b) : 1;
+    final int maxVal = (values.isNotEmpty)
+        ? values.reduce((a, b) => a > b ? a : b)
+        : 1;
     final double leftPadding = 4;
     final double rightPadding = 4;
 
@@ -301,12 +285,17 @@ class _WeekChartPainter extends CustomPainter {
     List<Offset> points = List.generate(n, (i) {
       final double x = leftPadding + i * stepX;
       final double normalized = maxVal > 0 ? (values[i] / maxVal) : 0.0;
-      final double y = paddingTop + (chartHeight - normalized * (chartHeight - 6));
+      final double y =
+          paddingTop + (chartHeight - normalized * (chartHeight - 6));
       return Offset(x, y);
     });
 
     // Draw baseline
-    canvas.drawLine(Offset(0, paddingTop + chartHeight), Offset(chartWidth, paddingTop + chartHeight), paintAxis);
+    canvas.drawLine(
+      Offset(0, paddingTop + chartHeight),
+      Offset(chartWidth, paddingTop + chartHeight),
+      paintAxis,
+    );
 
     // Build line path
     final Path linePath = Path();
@@ -319,7 +308,12 @@ class _WeekChartPainter extends CustomPainter {
     }
 
     // Draw the line on top (stroke) using the app gradient for the stroke
-    final Rect shaderRect = Rect.fromLTWH(0, paddingTop, chartWidth, chartHeight);
+    final Rect shaderRect = Rect.fromLTWH(
+      0,
+      paddingTop,
+      chartWidth,
+      chartHeight,
+    );
     final Paint strokePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3
@@ -334,7 +328,8 @@ class _WeekChartPainter extends CustomPainter {
       // Outer circle with gradient border: draw circle filled with gradient by painting a circle with shader
       final double radius = 5;
       final Rect dotRect = Rect.fromCircle(center: p, radius: radius + 2);
-      final Paint dotFill = Paint()..shader = kPrimaryButtonGradient.createShader(dotRect);
+      final Paint dotFill = Paint()
+        ..shader = kPrimaryButtonGradient.createShader(dotRect);
       canvas.drawCircle(p, radius + 1.5, dotFill);
       // small inner white circle
       canvas.drawCircle(p, radius - 1.2, dotPaint);
@@ -343,11 +338,18 @@ class _WeekChartPainter extends CustomPainter {
       final tpValue = TextPainter(
         text: TextSpan(
           text: values[i].toString(),
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade800, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey.shade800,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         textDirection: TextDirection.ltr,
       )..layout();
-      tpValue.paint(canvas, Offset(p.dx - tpValue.width / 2, p.dy - tpValue.height - 8));
+      tpValue.paint(
+        canvas,
+        Offset(p.dx - tpValue.width / 2, p.dy - tpValue.height - 8),
+      );
 
       // weekday label below baseline
       final tpLabel = TextPainter(
@@ -357,10 +359,14 @@ class _WeekChartPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr,
       )..layout();
-      tpLabel.paint(canvas, Offset(p.dx - tpLabel.width / 2, paddingTop + chartHeight + 6));
+      tpLabel.paint(
+        canvas,
+        Offset(p.dx - tpLabel.width / 2, paddingTop + chartHeight + 6),
+      );
     }
   }
 
   @override
-  bool shouldRepaint(covariant _WeekChartPainter oldDelegate) => oldDelegate.values != values;
+  bool shouldRepaint(covariant _WeekChartPainter oldDelegate) =>
+      oldDelegate.values != values;
 }

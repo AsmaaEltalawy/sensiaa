@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../utils/styles.dart';
+import '../../components/app_logo.dart';
 import 'signup.dart';
+import '../home.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -41,12 +43,7 @@ class LoginScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     /// ICON (Leaf)
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.contain,
-                    ),
+                    const AppLogo(padding: 8, iconSize: 36, bgColor: Colors.transparent),
 
                     const SizedBox(height: 10),
                     const Text(
@@ -134,7 +131,13 @@ class LoginScreen extends StatelessWidget {
                         gradient: kPrimaryButtonGradient,
                       ),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Navigate to Home screen after sign in
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomeScreen()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: kTransparentColor,
                           shadowColor: kTransparentColor,

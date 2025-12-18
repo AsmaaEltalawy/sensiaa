@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/styles.dart';
+import '../../components/app_logo.dart';
+import 'Login.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -40,12 +42,7 @@ class SignUp extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     /// ICON
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.contain,
-                    ),
+                    const AppLogo(padding: 8, iconSize: 36, bgColor: Colors.transparent),
 
                     const SizedBox(height: 10),
                     const Text(
@@ -247,7 +244,12 @@ class SignUp extends StatelessWidget {
                       children: [
                         const Text("Already have an account? "),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                            );
+                          },
                           child: const Text(
                             "Sign In",
                             style: TextStyle(
